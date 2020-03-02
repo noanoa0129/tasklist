@@ -1,0 +1,29 @@
+[1mdiff --git a/app/Providers/AppServiceProvider.php b/app/Providers/AppServiceProvider.php[m
+[1mindex 35471f6..7165095 100644[m
+[1m--- a/app/Providers/AppServiceProvider.php[m
+[1m+++ b/app/Providers/AppServiceProvider.php[m
+[36m@@ -13,7 +13,7 @@[m [mclass AppServiceProvider extends ServiceProvider[m
+      */[m
+     public function boot()[m
+     {[m
+[31m-        //[m
+[32m+[m[32m        \Schema::defaultStringLength(191);[m
+     }[m
+ [m
+     /**[m
+[1mdiff --git a/routes/web.php b/routes/web.php[m
+[1mindex 810aa34..d91eebe 100644[m
+[1m--- a/routes/web.php[m
+[1m+++ b/routes/web.php[m
+[36m@@ -11,6 +11,7 @@[m
+ |[m
+ */[m
+ [m
+[31m-Route::get('/', function () {[m
+[31m-    return view('welcome');[m
+[31m-});[m
+[32m+[m
+[32m+[m[32mRoute::get('/', 'TasksController@index');[m
+[32m+[m
+[32m+[m[32mRoute::resource('tasks', 'TasksController');[m
+\ No newline at end of file[m
