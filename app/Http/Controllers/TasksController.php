@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Task;
 
 class TasksController extends Controller
 {
@@ -27,7 +28,7 @@ class TasksController extends Controller
      */
     public function create()
     {
-        $task = new Tasks;
+        $task = new Task;
 
         return view('tasks.create', [
             'task' => $task,
@@ -42,7 +43,13 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-         $task = new Tasks;
+        $this->validate($request, [
+            'status' => 'required|max:10',   // 追加
+            'content' => 'required|max:10',
+        ]);
+        
+        $task = new Task;
+        $task->status = $request->status;   
         $task->content = $request->content;
         $task->save();
 
@@ -88,7 +95,17 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'status' => 'required|max:10',   // 追加
+            'content' => 'required|max:10',
+        ]);
+        $task = Task::find($id);
+        $task->status = $request->status;    // 追加
+        $task->content = $request->content;
+        $task->save();
+
+        return redirect('/');
+        
     }
 
     /**

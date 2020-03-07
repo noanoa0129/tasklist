@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>id = {{ $task->id }} のメッセージ詳細ページ</h1>
+    <h1>id = {{ $task->id }} のタスク詳細ページ</h1>
 
     <table class="table table-bordered">
         <tr>
@@ -10,9 +10,13 @@
             <td>{{ $task->id }}</td>
         </tr>
         <tr>
-            <th>メッセージ</th>
+            <th>ステータス</th>
+            <td>{{ $tasks->title }}</td>
+        </tr>
+        <tr>
+            <th>タスク</th>
             <td>{{ $task->content }}</td>
         </tr>
     </table>
-     {!! link_to_route('tasks.edit', 'このメッセージを編集', ['id' => $task->id], ['class' => 'btn btn-light']) !!}
+     {!! link_to_route('tasks.edit', 'このタスクを編集', ['id' => $task->id], ['class' => 'btn btn-light']) !!}
 @endsection
