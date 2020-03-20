@@ -19,6 +19,18 @@ class TasksController extends Controller
         return view('tasks.index', [
             'tasks' => $tasks,
         ]);
+         $data = [];
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+            
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];
+        }
+        
+        return view('welcome', $data);    
     }
 
     /**
@@ -52,6 +64,10 @@ class TasksController extends Controller
         $task->status = $request->status;   
         $task->content = $request->content;
         $task->save();
+
+         $request->user()->tasks()->create([
+            'content' => $request->content,
+        ]);
 
         return redirect('/');
     }
@@ -117,8 +133,14 @@ class TasksController extends Controller
     public function destroy($id)
     {
          $task = Task::find($id);
-        $task->delete();
+       
+        
+      
+
+        if (\Auth::id() === $task->user_id) {
+            $task->delete();
 
         return redirect('/');
     }
+}
 }
